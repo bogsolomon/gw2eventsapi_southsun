@@ -2,7 +2,6 @@ package ca.bsolomon.gw2events.southsun;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -17,6 +16,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import ca.bsolomon.gw2events.southsun.util.GW2EventsAPI;
+import ca.bsolomon.gw2events.southsun.util.SouthsunChannelIDs;
 import ca.bsolomon.gw2events.southsun.util.SouthsunEventIDs;
 
 public class DataRetrieveJob implements Job {
@@ -50,16 +50,19 @@ public class DataRetrieveJob implements Job {
 				if (eventState.containsKey(eventId)) {
 					if (!eventState.get(eventId).equals(state)) {
 						String output = "["+time+"]["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
+						String channel = SouthsunChannelIDs.channelIDs.get(eventId);
+						String color = "";
 						
 						if (state.equals("Active")) {
-							output = output+"[<span style='color: #009933;'>"+state+"</span>]";
+							color = "009933";
 						} else if (state.equals("Fail") || state.equals("Success")) {
-							output = output+"[<span style='color: #660000;'>"+state+"</span>]";
+							color = "660000";
 						} else if (state.equals("Warmup") || state.equals("Preparation ")) {
-							output = output+"[<span style='color: #CCCC33;'>"+state+"</span>]";
+							color = "CCCC33";
 						}
 						
-						pushContext.push("/counter", output);
+						output = output+"[<span style='color: #"+color+";'>"+state+"</span>]";
+						pushContext.push("/"+channel, output);
 					}
 				}
 			}
