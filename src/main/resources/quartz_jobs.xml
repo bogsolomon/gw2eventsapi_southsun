@@ -5,21 +5,21 @@
   version="1.8">
     <schedule>
         <job>
-            <name>COFDataRetrieveJob</name>
-            <group>COFDataRetrieveGroup</group>
+            <name>DataRetrieveJob</name>
+            <group>DataRetrieveGroup</group>
 
             <description>The job description</description>
-            <job-class>ca.bsolomon.gw2events.cof.DataRetrieveJob</job-class>
+            <job-class>ca.bsolomon.gw2events.southsun.DataRetrieveJob</job-class>
         </job>
 
         <trigger>
             <cron>
-                <name>COFDataRetrieveTrigger</name>
-                <group>COFDataRetrieveTriggerGroup</group>
-                <job-name>COFDataRetrieveJob</job-name>
+                <name>DataRetrieveTrigger</name>
+                <group>DataRetrieveTriggerGroup</group>
+                <job-name>DataRetrieveJob</job-name>
 
-                <job-group>COFDataRetrieveGroup</job-group>
-                <cron-expression>0/30 * * * * ?</cron-expression>
+                <job-group>DataRetrieveGroup</job-group>
+                <cron-expression>0/10 * * * * ?</cron-expression>
             </cron>
         </trigger>
     </schedule>

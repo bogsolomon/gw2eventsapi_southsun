@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ca.bsolomon.gw2events</groupId>
-  <artifactId>cof</artifactId>
+  <artifactId>southsun</artifactId>
   <packaging>war</packaging>
   <version>0.0.1</version>
-  <name>cof Maven Webapp</name>
+  <name>southsun Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -17,7 +17,7 @@
     <dependency>
 	    <groupId>org.atmosphere</groupId>
 	    <artifactId>atmosphere-runtime</artifactId>
-	    <version>1.1.0.RC2</version>
+	    <version>1.0.10</version>
 	</dependency>
 	 
 	<dependency>
@@ -68,7 +68,7 @@
 	</dependency>
   </dependencies>
   <build>
-    <finalName>cof</finalName>
+    <finalName>southsun</finalName>
   </build>
   
   <repositories>
