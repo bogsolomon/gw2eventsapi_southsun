@@ -1,21 +1,18 @@
 package ca.bsolomon.gw2events.southsun;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.primefaces.push.PushContext;
-import org.primefaces.push.PushContextFactory;
+import org.joda.time.Chronology;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.chrono.GJChronology;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import ca.bsolomon.gw2events.southsun.util.BackingData;
 import ca.bsolomon.gw2events.southsun.util.GW2EventsAPI;
-import ca.bsolomon.gw2events.southsun.util.SouthsunChannelIDs;
 import ca.bsolomon.gw2events.southsun.util.SouthsunEventIDs;
 
 public class DataRetrieveJob implements Job {
@@ -24,8 +21,6 @@ public class DataRetrieveJob implements Job {
 	
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
-		PushContext pushContext = PushContextFactory.getDefault().getPushContext();
-		
 		if (GW2EventsAPI.eventIdToName.size() == 0) {
 			System.out.println("Generating IDs");
 			GW2EventsAPI.generateEventIds();
@@ -33,11 +28,9 @@ public class DataRetrieveJob implements Job {
 		
 		JSONArray result = GW2EventsAPI.queryServer(1013, 873);
 		
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
-		
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss z");
-		format.setCalendar(cal);
-		String time = format.format(cal.getTime());
+		DateTimeZone zone = DateTimeZone.forID("America/New_York");
+		Chronology gregorianJuian = GJChronology.getInstance(zone);
+		DateTime time = new DateTime(gregorianJuian);
 		
 		for (int i=0; i<result.size(); i++) {
 			JSONObject obj = result.getJSONObject(i);
@@ -46,8 +39,8 @@ public class DataRetrieveJob implements Job {
 			String state = obj.getString("state");
 			
 			if (SouthsunEventIDs.eventIDs.keySet().contains(eventId)) {
-				if (data.addEventState(eventId, state)) {
-					String output = "["+time+"]["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
+				if (data.addEventState(eventId, state, time)) {
+/*					String output = "["+time+"]["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
 					String channel = SouthsunChannelIDs.channelIDs.get(eventId);
 					String color = "";
 					
@@ -59,8 +52,7 @@ public class DataRetrieveJob implements Job {
 						color = "CCCC33";
 					}
 					
-					output = output+"[<span style='color: #"+color+";'>"+state+"</span>]";
-					pushContext.push("/"+channel, output);
+					output = output+"[<span style='color: #"+color+";'>"+state+"</span>]";*/
 				}
 			}
 		}

@@ -5,18 +5,23 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.joda.time.DateTime;
+
 public class BackingData {
 
 	private static ConcurrentMap<String, String> eventState = new ConcurrentHashMap<String, String>(16, 0.9f, 1);
+	private static ConcurrentMap<String, DateTime> eventTime = new ConcurrentHashMap<String, DateTime>(16, 0.9f, 1);
 	
-	public boolean addEventState(String eventId, String state) {
+	public boolean addEventState(String eventId, String state, DateTime time) {
 		if (eventState.containsKey(eventId)) {
 			if (!eventState.get(eventId).equals(state)) {
 				eventState.put(eventId, state);
+				eventTime.put(eventId, time);
 				return true;
 			}
 		} else {
 			eventState.put(eventId, state);
+			eventTime.put(eventId, time);
 			return true;
 		}
 		
@@ -34,5 +39,9 @@ public class BackingData {
 	
 	public String getEventState(String eventId) {
 		return eventState.get(eventId);
+	}
+	
+	public DateTime getEventTime(String eventId) {
+		return eventTime.get(eventId);
 	}
 }

@@ -3,6 +3,16 @@ package ca.bsolomon.gw2events.southsun;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.joda.time.Chronology;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Period;
+import org.joda.time.chrono.GJChronology;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+
 import ca.bsolomon.gw2events.southsun.util.BackingData;
 import ca.bsolomon.gw2events.southsun.util.SouthsunEventIDs;
 
@@ -11,6 +21,21 @@ import ca.bsolomon.gw2events.southsun.util.SouthsunEventIDs;
 public class SouthSunEventBean {
 
 	private BackingData data = new BackingData();
+	
+	private static DateTimeZone zone = DateTimeZone.forID("America/New_York");
+	private static Chronology gregorianJuian = GJChronology.getInstance(zone);
+	
+	private static DateTimeFormatter format = new DateTimeFormatterBuilder().
+			appendHourOfDay(2).appendLiteral(":").
+			appendMinuteOfHour(2).appendLiteral(":").
+			appendSecondOfMinute(2).appendLiteral(" ").
+			appendTimeZoneShortName().toFormatter();
+	
+	private static PeriodFormatter HHMMSSFormater = new PeriodFormatterBuilder().
+			printZeroAlways().minimumPrintedDigits(2).
+			appendHours().appendSeparator(":").
+			appendMinutes().appendSeparator(":").
+			appendSeconds().toFormatter();
 	
 	public String getLionVictimStatus() {
 		return formatEventResult("5B7F1A45-27DB-45D5-803F-57B6FBB5DBE8");
@@ -82,8 +107,16 @@ public class SouthSunEventBean {
 
 	private String formatEventResult(String eventId) {
 		String state = data.getEventState(eventId);
+		DateTime time = data.getEventTime(eventId);
 		
-		String output = "["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
+		String timeStr = format.print(time);
+		
+		DateTime now = new DateTime(gregorianJuian);
+		Period period = new Period(time, now);
+		
+		String periodStr = HHMMSSFormater.print(period);
+		
+		String output = "["+timeStr+"]"+"["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
 		String color = "";
 		
 		if (state.equals("Active")) {
@@ -94,7 +127,7 @@ public class SouthSunEventBean {
 			color = "CCCC33";
 		}
 		
-		output = output+"[<span style='color: #"+color+";'>"+state+"</span>]";
+		output = output+"[<span style='color: #"+color+";'>"+state+"</span>]"+"["+periodStr+"]";
 		
 		return output;
 	}
