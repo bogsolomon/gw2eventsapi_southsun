@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>SouthSun Events Tracker</title>
+        <meta http-equiv="refresh" content="15"/>
+    </h:head>
+    <h:body>
+        <h:form id="form"> 
+        	<p:panel header="Lion Camp Waypoint" id="lion" toggleable="true">
+        		<p:outputPanel id="lionvictim" layout="block"><h:outputText escape="false" value="#{southsunEventBean.lionVictimStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="lionfactions" layout="block"><h:outputText escape="false" value="#{southsunEventBean.lionFactionsStatus}"></h:outputText></p:outputPanel>  
+        	</p:panel>
+        	
+        	<p:panel header="Pride Camp Waypoint" id="pride" toggleable="true">
+        		<p:outputPanel id="pridevictim" layout="block"><h:outputText escape="false" value="#{southsunEventBean.prideVictimStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="pridefactions" layout="block"><h:outputText escape="false" value="#{southsunEventBean.prideFactionsStatus}"></h:outputText></p:outputPanel>     
+        	</p:panel>        
+        	
+        	<p:panel header="Owain Waypoint" id="owain" toggleable="true">
+        		<p:outputPanel id="owainvictim" layout="block"><h:outputText escape="false" value="#{southsunEventBean.owainVictimStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="owainfactions" layout="block"><h:outputText escape="false" value="#{southsunEventBean.owainFactionsStatus}"></h:outputText></p:outputPanel>     
+        	</p:panel>
+        	
+        	<p:panel header="Camp Karka Waypoint" id="karka" toggleable="true">
+        		<p:outputPanel id="karkavictim" layout="block"><h:outputText escape="false" value="#{southsunEventBean.karkaVictimStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="karkafactions" layout="block"><h:outputText escape="false" value="#{southsunEventBean.karkaFactionsStatus}"></h:outputText></p:outputPanel>      
+        		<p:outputPanel id="karkakarka" layout="block"><h:outputText escape="false" value="#{southsunEventBean.karkaKarkaStatus}"></h:outputText></p:outputPanel>
+        	</p:panel>
+        	
+        	<p:panel header="Driftglass Waypoint" id="driftglass" toggleable="true">
+        		<p:outputPanel id="dgvictim" layout="block"><h:outputText escape="false" value="#{southsunEventBean.driftVictimStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="dgfactions" layout="block"><h:outputText escape="false" value="#{southsunEventBean.driftFactionsStatus}"></h:outputText></p:outputPanel>     
+        		<p:outputPanel id="dgkarka" layout="block"><h:outputText escape="false" value="#{southsunEventBean.driftKarkaStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="dginstigator" layout="block"><h:outputText escape="false" value="#{southsunEventBean.driftInstigatorStatus}"></h:outputText></p:outputPanel>
+        	</p:panel>
+        	
+        	<p:panel header="Kiel Waypoint" id="kiel" toggleable="true">
+        		<p:outputPanel id="kielvictim" layout="block"><h:outputText escape="false" value="#{southsunEventBean.kielVictimStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="kielfactions" layout="block"><h:outputText escape="false" value="#{southsunEventBean.kielFactionsStatus}"></h:outputText></p:outputPanel>      
+        		<p:outputPanel id="kielkarka" layout="block"><h:outputText escape="false" value="#{southsunEventBean.kielKarkaStatus}"></h:outputText></p:outputPanel>
+        		<p:outputPanel id="kielinstigator" layout="block"><h:outputText escape="false" value="#{southsunEventBean.kielInstigatorStatus}"></h:outputText></p:outputPanel>
+        	</p:panel>
+        </h:form> 
+ 
+        
+    </h:body>
+</html>

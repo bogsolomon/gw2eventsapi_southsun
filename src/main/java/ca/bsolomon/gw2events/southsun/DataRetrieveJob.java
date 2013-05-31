@@ -2,8 +2,6 @@ package ca.bsolomon.gw2events.southsun;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TimeZone;
 
 import net.sf.json.JSONArray;
@@ -15,13 +13,14 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import ca.bsolomon.gw2events.southsun.util.BackingData;
 import ca.bsolomon.gw2events.southsun.util.GW2EventsAPI;
 import ca.bsolomon.gw2events.southsun.util.SouthsunChannelIDs;
 import ca.bsolomon.gw2events.southsun.util.SouthsunEventIDs;
 
 public class DataRetrieveJob implements Job {
-
-	private static Map<String, String> eventState = new HashMap<String, String>();
+	
+	private BackingData data = new BackingData();
 	
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
@@ -40,34 +39,30 @@ public class DataRetrieveJob implements Job {
 		format.setCalendar(cal);
 		String time = format.format(cal.getTime());
 		
-		for (int i=0;i< result.size();i++) {
+		for (int i=0; i<result.size(); i++) {
 			JSONObject obj = result.getJSONObject(i);
 			
 			String eventId = obj.getString("event_id");
 			String state = obj.getString("state");
 			
 			if (SouthsunEventIDs.eventIDs.keySet().contains(eventId)) {
-				if (eventState.containsKey(eventId)) {
-					if (!eventState.get(eventId).equals(state)) {
-						String output = "["+time+"]["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
-						String channel = SouthsunChannelIDs.channelIDs.get(eventId);
-						String color = "";
-						
-						if (state.equals("Active")) {
-							color = "009933";
-						} else if (state.equals("Fail") || state.equals("Success")) {
-							color = "660000";
-						} else if (state.equals("Warmup") || state.equals("Preparation ")) {
-							color = "CCCC33";
-						}
-						
-						output = output+"[<span style='color: #"+color+";'>"+state+"</span>]";
-						pushContext.push("/"+channel, output);
+				if (data.addEventState(eventId, state)) {
+					String output = "["+time+"]["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
+					String channel = SouthsunChannelIDs.channelIDs.get(eventId);
+					String color = "";
+					
+					if (state.equals("Active")) {
+						color = "009933";
+					} else if (state.equals("Fail") || state.equals("Success")) {
+						color = "660000";
+					} else if (state.equals("Warmup") || state.equals("Preparation")) {
+						color = "CCCC33";
 					}
+					
+					output = output+"[<span style='color: #"+color+";'>"+state+"</span>]";
+					pushContext.push("/"+channel, output);
 				}
 			}
-			
-			eventState.put(eventId, state);
 		}
 	}
 }
