@@ -11,8 +11,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import ca.bsolomon.gw2event.api.GW2EventsAPI;
 import ca.bsolomon.gw2events.southsun.util.BackingData;
-import ca.bsolomon.gw2events.southsun.util.GW2EventsAPI;
 import ca.bsolomon.gw2events.southsun.util.SouthsunEventIDs;
 
 public class DataRetrieveJob implements Job {
