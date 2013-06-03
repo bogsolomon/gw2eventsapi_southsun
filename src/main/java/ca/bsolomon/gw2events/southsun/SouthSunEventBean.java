@@ -37,6 +37,11 @@ public class SouthSunEventBean {
 			appendMinutes().appendSeparator(":").
 			appendSeconds().toFormatter();
 	
+	private static PeriodFormatter MMSSFormater = new PeriodFormatterBuilder().
+			printZeroAlways().minimumPrintedDigits(2).
+			appendMinutes().appendSeparator(":").
+			appendSeconds().toFormatter();
+	
 	public String getLionVictimStatus() {
 		return formatEventResult("5B7F1A45-27DB-45D5-803F-57B6FBB5DBE8");
 	}
@@ -116,7 +121,8 @@ public class SouthSunEventBean {
 		
 		String periodStr = HHMMSSFormater.print(period);
 		
-		String output = "["+timeStr+"]"+"["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
+		//String output = "["+timeStr+"]"+"["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
+		String output = "["+SouthsunEventIDs.eventIDs.get(eventId)+"]";
 		String color = "";
 		
 		if (state.equals("Active")) {
@@ -128,6 +134,16 @@ public class SouthSunEventBean {
 		}
 		
 		output = output+"[<span style='color: #"+color+";'>"+state+"</span>]"+"["+periodStr+"]";
+		
+		output = output + "[Last Active: "+MMSSFormater.print(data.getCurrentPeriod(eventId, now))+"]";
+		
+		if (data.getMinPeriod(eventId)!=null) {
+			output = output + "[Min Active: "+MMSSFormater.print(data.getMinPeriod(eventId))+"]";
+		}
+		
+		if (data.getMaxPeriod(eventId)!=null) {
+			output = output + "[Max Active: "+MMSSFormater.print(data.getMaxPeriod(eventId))+"]";
+		}
 		
 		return output;
 	}

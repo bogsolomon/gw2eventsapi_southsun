@@ -3,7 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html">
     <h:head>
         <title>SouthSun Events Tracker</title>
-        <meta http-equiv="refresh" content="15"/>
+        <!--meta http-equiv="refresh" content="15"/-->
     </h:head>
     <h:body>
         <h:form id="form"> 
@@ -41,6 +41,12 @@
         		<p:outputPanel id="kielkarka" layout="block"><h:outputText escape="false" value="#{southsunEventBean.kielKarkaStatus}"></h:outputText></p:outputPanel>
         		<p:outputPanel id="kielinstigator" layout="block"><h:outputText escape="false" value="#{southsunEventBean.kielInstigatorStatus}"></h:outputText></p:outputPanel>
         	</p:panel>
+        	
+        	<p:poll interval="15"   
+            	update="lionvictim, lionfactions, pridevictim, pridefactions, owainvictim, owainfactions, karkavictim, karkafactions, karkakarka, dgvictim,
+            	dgfactions, dgkarka, dginstigator, kielvictim, kielfactions, kielkarka, kielinstigator" 
+            	widgetVar="poll" autoStart="true"/>  
+        
         </h:form> 
  
         
